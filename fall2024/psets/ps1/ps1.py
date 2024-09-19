@@ -68,4 +68,18 @@ def BC(n, b, k):
 
 def radixSort(univsize, base, arr):
     """TODO: Implement Radix Sort using BC and singletonBucketSort"""
+    # Determine the maximum number in the array to find the max number of digits needed (k)
+    max_num = max([elt[0] for elt in arr])
+    k = math.ceil(math.log(max_num + 1, base))  # Calculate the number of digits needed
+
+    # Perform sorting for each digit from least significant to most significant
+    for digit_idx in range(k):
+        # Generate digit-based keys using BC and sort using singletonBucketSort
+        # Add (digit, element) pairs based on current digit and pass them to singletonBucketSort
+        arr_with_digits = [(BC(elt[0], base, k)[digit_idx], elt) for elt in arr]
+        arr = singletonBucketSort(base, arr_with_digits)
+        
+        # Extract back the sorted elements (removing the temporary digit key)
+        arr = [elt[1] for elt in arr]
+    return arr
     return [] 
